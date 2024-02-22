@@ -1,0 +1,48 @@
+<mat-card class="device-preview">
+    <mat-card-header>
+        <mat-card-title>Device Preview</mat-card-title>
+        <p>This preview provides a general idea how your message will appear on a
+            mobile device. Actual message rendering will vary depending on the
+            device. Test with a real device for actual results. </p>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-tab-group>
+            <mat-tab label="Intial State">
+                <h4>Android</h4>
+                <div class="notification-tile">
+                    <img src="https://dummyimage.com/53x56/000/fff.png"  />
+                    <div class="text-wrap">
+                        <h4>{{previewData.notificationTitle}}</h4>
+                        <p>{{previewData.notificationText}}</p>
+                    </div>                              
+                </div>
+                <h4>IOS/Apple</h4>
+                <div class="notification-tile">
+                    <img src="https://dummyimage.com/53x56/000/fff.png"  />
+                    <div class="text-wrap">
+                        <h4>{{previewData.notificationTitle}}</h4>
+                        <p>{{previewData.notificationText}}</p>
+                    </div>                              
+                </div>
+            </mat-tab>
+            <mat-tab label="Expanded view" >
+                <h4>Android</h4>
+                <div class="expanded-view notification-tile">
+                    <div class="text-wrap">
+                        <h4>{{previewData.notificationTitle}}</h4>
+                        <p>{{previewData.notificationText}}</p>
+                    </div>    
+                    <img src="https://dummyimage.com/324x72/000/fff.png"  />                          
+                </div>
+                <h4>IOS/Apple</h4>
+                <div class="notification-tile">
+                    <div class="text-wrap">
+                        <h4>{{previewData.notificationTitle}}</h4>
+                        <p>{{previewData.notificationText}}</p>
+                    </div>   
+                    <img src="https://dummyimage.com/324x72/000/fff.png"  />                           
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,72 @@
+.audience-list {
+  width: 980px;
+  background: var(--white);
+  padding:15px;
+  h3 {
+    font-size: 20px;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+  &__table{
+    overflow-y: auto;
+    height: 340px;
+  }
+  
+}
+
+::ng-deep .mat-table {
+    width: 100%;
+    .mat-column-initials{
+      display: none;
+    }
+    .mat-header-cell{
+      border:none;
+  
+    }
+    .mat-row {
+      .mat-cell {
+       border: none;
+      &:first{
+        display: none;
+      }
+        img{
+          width: 34px;
+          height: auto;
+          border-radius: 4px;
+          margin-right: 5px;
+        }
+      &.mat-column-link{
+        width: 200px;
+        text-align: right;
+        a {
+          font-weight: 600;
+        }
+      }
+     }
+     &:nth-child(odd){
+      .mat-cell {
+          background-color: var(--primary-0);
+        }
+      }
+    }
+    .mat-header-cell{
+        text-transform: capitalize;
+    }
+  }
+
+  .mat-form-field{
+    width: 400px;
+  }
+
+  .content-footer {
+    margin-top: 30px;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content:right;
+    align-items: flex-end;
+  }
+
+  .mat-dialog-container {
+    padding: 0;
+  }

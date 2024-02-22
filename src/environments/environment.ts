@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  domain:'https://compass-dev.tarento.com/',
+  email:'gohila.mariappan@tarento.com',
+  framework:'fracing_fw',
+  production: false,
+  userId:'e3231918-ca1d-418e-b330-af57cbc812f7',
+  authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI0WEFsdFpGMFFhc1JDYlFnVXB4b2RvU2tLRUZyWmdpdCJ9.mXD7cSvv3Le6o_32lJplDck2D0IIMHnv0uJKq98YVwk'
 };
 
 /*

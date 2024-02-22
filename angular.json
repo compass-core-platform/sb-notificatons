@@ -28,6 +28,8 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./node_modules/compass-sb-styles/assets/styles.scss",
               "src/styles.scss"
             ],
             "scripts": []
@@ -72,7 +74,8 @@
               "browserTarget": "sb-notification:build:production"
             },
             "development": {
-              "browserTarget": "sb-notification:build:development"
+              "browserTarget": "sb-notification:build:development",
+              "proxyConfig": "src/proxy.config.json"
             }
           },
           "defaultConfiguration": "development"
@@ -96,12 +99,47 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []
           }
         }
       }
+    },
+    "sb-notifications": {
+      "projectType": "library",
+      "root": "projects/sb-notifications",
+      "sourceRoot": "projects/sb-notifications/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/sb-notifications/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/sb-notifications/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/sb-notifications/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/sb-notifications/src/test.ts",
+            "tsConfig": "projects/sb-notifications/tsconfig.spec.json",
+            "karmaConfig": "projects/sb-notifications/karma.conf.js"
+          }
+        }
+      }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

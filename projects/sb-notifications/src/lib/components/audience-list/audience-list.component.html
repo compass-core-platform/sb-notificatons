@@ -1,0 +1,83 @@
+<div class="audience-list">
+    <header>
+        <h3>Choose {{audienceType}}</h3>
+        <mat-form-field class="search-position" appearance="outline">
+            <mat-label>Search {{audienceType}}</mat-label>
+            <input matInput placeholder="Search {{audienceType}}" [(ngModel)]="search" (keyup)="searchQuery()" (blur)="searchQuery()" >
+        </mat-form-field>
+        
+    </header>
+    <section class="audience-list__table">
+
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumns">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> <ng-container *ngIf="col !==  'select'">{{splitColumnName(col)}}</ng-container></th>
+                <td mat-cell *matCellDef="let row"> 
+                        <ng-container *ngIf="col ===  'select'">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null"
+                            [checked]="selection.isSelected(row)"
+                            [aria-label]="checkboxLabel(row)">
+                            </mat-checkbox>
+                        </ng-container>
+                       
+                        <ng-container>
+                            {{row[col]}}
+                        </ng-container>
+                </td>
+            </ng-container>
+            <!-- <ng-container matColumnDef="viewProgress" stickyEnd>
+              <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+              <td mat-cell *matCellDef="let element">
+               View progress
+              </td>
+            </ng-container> -->
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data matching</td>
+            </tr>
+          </table>
+
+
+        <!-- <table *ngIf="dataSource.length>0" mat-table [dataSource]="dataSource">
+
+            <ng-container matColumnDef="select"  *ngFor="let col of displayedColumns">
+                <th mat-header-cell *matHeaderCellDef>
+                   
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null"
+                                    [checked]="selection.isSelected(row)"
+                                    [aria-label]="checkboxLabel(row)">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="role" >
+              <th mat-header-cell *matHeaderCellDef>Role</th>
+              <td mat-cell *matCellDef="let element">{{element.role}}</td>
+            </ng-container>
+          
+           
+            <ng-container matColumnDef="noOfMembers">
+              <th mat-header-cell *matHeaderCellDef>Number of members</th>
+              <td mat-cell *matCellDef="let element">{{element.noOfMembers}}</td>
+            </ng-container>
+
+             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns;"
+            ></tr>
+          </table> -->
+       
+    </section>
+    <footer class="content-footer">
+        <button  mat-stroked-button color="primary" (click)="onNoClick()" mat-dialog-close>Cancel</button>
+    </footer>
+</div>

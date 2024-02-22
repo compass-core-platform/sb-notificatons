@@ -1,0 +1,55 @@
+<div class="container notifications-list">
+
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+
+       <mat-tab label="Scheduled">
+
+          <header class="notifications-list__header">
+            <h2>Notifications</h2>
+            <div class="notifications-list__header-search-box">
+              <div class="notifications-list__header-search-box-filter">
+                <search-filter (updateSearchResults)="searchResult($event)"></search-filter>
+              </div>
+              <a routerLink="/custom-notification/create" mat-raised-button color="primary">Create New </a>
+            </div>
+          </header>
+
+          <table mat-table [dataSource]="dataSource">
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Name</th>
+                  <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                </ng-container>
+              
+                <!-- Weight Column -->
+                <ng-container matColumnDef="scheduledFor">
+                  <th mat-header-cell *matHeaderCellDef>Scheduled For</th>
+                  <td mat-cell *matCellDef="let element">{{element.scheduledFor}}</td>
+                </ng-container>
+              
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="audiance">
+                  <th mat-header-cell *matHeaderCellDef>Audiance</th>
+                  <td mat-cell *matCellDef="let element">{{element.audiance}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let element">
+                      Act
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr
+                    mat-row
+                    (click)="clickedRows.add(row)"
+                    [class.demo-row-is-clicked]="clickedRows.has(row)"
+                    *matRowDef="let row; columns: displayedColumns;"
+                ></tr>
+              </table>
+        </mat-tab>
+        <mat-tab label="Past">
+            Content 2</mat-tab>
+    </mat-tab-group>
+</div>

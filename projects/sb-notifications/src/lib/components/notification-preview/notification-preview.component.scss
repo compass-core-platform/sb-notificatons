@@ -1,0 +1,50 @@
+.device-preview {
+   
+    .mat-card-header {
+            display: flex;
+            flex-direction: column;
+    }
+   
+    .notification-tile {
+        border:1px solid #D2D2D2;
+        background: #F5F5F5;
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        align-items: center;
+        padding: 12px;
+        img {
+            margin-right: 16px;
+        }
+        h4 {
+            font-weight: 500;
+            margin-bottom: 0;
+        }
+        p {
+            font-size: 10px;
+            line-height: 1rem;
+        }
+    }
+    .expanded-view{
+        &.notification-tile{
+            display: flex;
+            flex-direction: column;
+            .text-wrap {
+                text-align: left;
+            }
+        }
+    }
+}
+
+
+
+
+::ng-deep .mat-tab-group {
+    padding:20px;
+    .mat-tab-body-wrapper {
+        h4 {
+            display: flex;
+            margin-top: 10px;
+        }
+    }
+}

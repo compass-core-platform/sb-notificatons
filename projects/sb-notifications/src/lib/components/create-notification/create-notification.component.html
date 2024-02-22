@@ -1,0 +1,101 @@
+<div class="container create-notification">
+    <aside class="create-notification__aside">
+            <a href="javascript:void(0)" class="active" (click)="scroll('section1', $event)">Content</a>
+            <a href="javascript:void(0)"  (click)="scroll('section2', $event)">Audience</a>
+            <a href="javascript:void(0)" (click)="scroll('section3', $event)">Schedule</a>
+    </aside>
+    <section class="create-notification__main-section">
+         <div class="create-notification__main-section-left">
+            <form [formGroup]="notificationForm" (submit)="onSubmit()">
+                <mat-card id="section1">
+                    <mat-card-header>
+                        <mat-card-title>Notification Content</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                            <p>
+                            <mat-label>Notificaton title</mat-label>
+                            <mat-form-field appearance="outline">
+                                    <input matInput formControlName="notificationTitle" placeholder="Enter key result here">
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <mat-label>Notification Text</mat-label>
+                            <span>This will appear in the Notification card</span>
+                            <mat-form-field appearance="outline">
+                            
+                            <textarea matInput formControlName="notificationText" placeholder="Type here" rows="5" cols="40"></textarea>
+                            
+                            </mat-form-field>
+                        </p>
+        
+                        <div class="image-upload">
+                            <mat-label>Notification Image (optional)</mat-label>
+                                <div class="drop-box" libImageUpload (dropFiles)="onDropFiles($event)">
+                                    <mat-icon color="primary">image</mat-icon>
+                                    <div><label>Drag & drop</label> or <label class="browseImage" color="primary" for="file1">Browse image</label> </div>
+                                    <p>(Note: It will support only JPEG, PNG format <br /> only with the maximum size of 2MB.)</p>
+                                    <input type="file" id="file1"  style="visibility:hidden;" accept="image/*"  (change)="handleFileInput($event)">
+                                    <div *ngIf="fileToUpload" class="file-name">{{fileToUpload?.name}}</div>
+                            </div>
+                        </div>
+        
+                        <div class="content-type">
+                            <mat-label>Content type</mat-label>
+                            <p>
+                             <mat-checkbox [checked]="contentTypeSelected  == 'deepLink'" value="deepLink" (change)="onContentTypeChange($event)">Deep Link</mat-checkbox>
+                             <mat-checkbox [checked]="contentTypeSelected == 'text'" value="text" (change)="onContentTypeChange($event)">Text</mat-checkbox>
+                            </p>
+                        </div>
+        
+                        <p class="item-to-link" *ngIf="contentTypeSelected == 'deepLink'">
+                            <mat-label>Link to an item</mat-label>
+                            <mat-list role="nav-list">
+                                <mat-list-item>Fracing at core of Mission</mat-list-item>
+                            </mat-list>
+                        </p>
+
+                        <p class="item-to-link" *ngIf="contentTypeSelected == 'text'">
+                            <mat-form-field appearance="outline">
+                                 <input matInput placeholder="Type here" formControlName="contentType" />
+                            </mat-form-field>
+                        </p>
+        
+                    </mat-card-content>
+                </mat-card>
+                <mat-card class="audience" id="section2">
+                    <mat-card-header>
+                        <mat-card-title>Audience</mat-card-title>
+                        <p>The notification is set for all by default. choose one of the options below to define target audience</p>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <mat-chip-list aria-label="Fish selection">
+                            <mat-chip  *ngFor="let aud of audienceList" (click)="openDialog(aud)">{{aud}}</mat-chip>
+                        </mat-chip-list>
+                    </mat-card-content>
+                </mat-card>
+                <mat-card class="schedule" id="section3">
+                    <mat-card-header>
+                        <mat-card-title>Schedule</mat-card-title>
+                        <p>The notification is set for all by default. Choose one of the options
+                            below to define target audience.</p>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <h4>Schedule</h4>
+                        <p>
+                            <mat-checkbox color="primary" value="now" [checked]="scheduleToSend=='now'">Send now</mat-checkbox>
+                            <mat-checkbox  color="primary" value="later" [checked]="scheduleToSend=='later'">Schedule for later</mat-checkbox>
+                        </p>
+                    </mat-card-content>
+                </mat-card>
+                <footer class="action">
+                    <button mat-stroked-button color="primary" type="reset" (click)="clear()">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit">Save and Publish</button>
+                </footer>
+            </form>
+         </div>
+        <div class="create-notification__main-section-right">
+            <notification-preview [previewData]="notificationForm.value"></notification-preview>
+        </div>
+      
+    </section>
+  </div>

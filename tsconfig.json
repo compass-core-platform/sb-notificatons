@@ -16,6 +16,11 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    "paths": {
+      "sb-notifications": [
+        "dist/sb-notifications"
+      ]
+    },
     "target": "es2020",
     "module": "es2020",
     "lib": [

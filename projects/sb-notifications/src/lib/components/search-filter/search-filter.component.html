@@ -1,0 +1,6 @@
+<header class="search__header">
+        <mat-form-field class="search__field" appearance="outline">
+            <mat-label>Search</mat-label>
+            <input matInput type="text" [(ngModel)]="searchText" (ngModelChange)="onModelChangeSubject.next('')">
+        </mat-form-field>
+</header>
