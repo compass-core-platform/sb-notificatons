@@ -3,9 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { CreateNotificationComponent, NotificationListComponent } from 'sb-notifications';
 
 const routes: Routes = [
-  {path:'', redirectTo:'/custom-notification', pathMatch:'full'},
-  {path:'custom-notification', component:NotificationListComponent},
-  {path:'custom-notification/create', component: CreateNotificationComponent}
+  {path:'', redirectTo:'/admin-portal/custom-notification', pathMatch:'full'},
+  {path:'admin-portal/custom-notification', component:NotificationListComponent},
+  {path:'admin-portal/custom-notification/create', component: CreateNotificationComponent}
 ];
 
 @NgModule({
