@@ -1,24 +1,60 @@
 # SbNotifications
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.0.
+    A light and easy to use custom notifications library along with the sunbird notifcation service.
 
-## Code scaffolding
+## Example
 
-Run `ng generate component component-name --project sb-notifications` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project sb-notifications`.
-> Note: Don't forget to add `--project sb-notifications` or else it will be added to the default project in your `angular.json` file. 
+## Instalation
 
-## Build
+    npm install --save sb-notifications
+                or
+    yarn add sb-notifications
 
-Run `ng build sb-notifications` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Setup 
 
-## Publishing
+   1. Import SbNotificationsModule module into root module or any feature module in your application.
 
-After building your library with `ng build sb-notifications`, go to the dist folder `cd dist/sb-notifications` and run `npm publish`.
+        @NgModule({
+            declarations: [
+                AppComponent
+            ],
+            imports: [
+                SbNotificationsModule.forRoot({
+                    configuration: {
+                            domain:'',
+                            production: false,
+                            userId:'',
+                            authorization: '',
+                            framework:''
+                    }
+                }),
+        ],
+        providers: [],
+        bootstrap: [AppComponent]
+        })
+        export class AppModule { }
 
-## Running unit tests
+    2.  Add following components in the routing module as children.
 
-Run `ng test sb-notifications` to execute the unit tests via [Karma](https://karma-runner.github.io).
+            NotificationListComponent,
+            CreateNotificationComponent
+            
+    3.  Supporting sunbird api's
 
-## Further help
+            Create Notification api:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+                /learner/user/feed/v2/create
+                
+            Framework read api:
+
+                /api/framework/v1/read/
+            
+            Department List api:
+
+                /learner/user/v1/department/list
+
+        
+            
+            
+
+
