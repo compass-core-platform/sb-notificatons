@@ -1,26 +1,21 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpHeaders, HttpBackend, HttpHandler } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-
-
-
-const POSITION_COLUMNS =  ['select', 'position', 'noOfMembers'];
-const ROLE_COLUMNS = ['select', 'role', 'noOfMembers'];
-const DEPARTMENT_COLUMNS = ['select', 'department', 'noOfMembers'];
+import * as appConst from '../constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
 
-  constructor(@Inject('config') private config:any, private http:HttpClient) { }
+  constructor(@Inject('config') private config:any, private http:HttpClient, private httpBackend: HttpBackend) { }
 
   get configuration(){
     return this.config.configuration.environment;
   }
 
   getFrameworkDetails(){
-    return this.http.get(`/api/framework/v1/read/${this.configuration.framework}?categories=`).pipe(
+    return this.http.get(`${appConst.APIS.frameworkRead}${this.configuration.framework}?categories=`).pipe(
       map((res:any) => {
         return res.result.framework;
       })
@@ -35,6 +30,9 @@ export class NotificationService {
   createNotification(req: any){
     const payload = {
       "request": {
+        "isScheduleNotification": req.isScheduleNotification,
+        "scheduleTime": req.isScheduleNotification?this.mergeDateTime(req.scheduleDate, req.scheduleTime):'',
+        "audience": req.audience.length?[... new Set(req.audience.map((r:any) => r.type))]:['ALL'],
           "data": [
               { "type": "email",
               "priority": 1,
@@ -85,31 +83,33 @@ export class NotificationService {
           "filters": {
              "profileDetails.professionalDetails.designation":req.audience.filter((tr:any) => tr.type === 'position').map((r:any) => r.term)||[],
               "framework.taxonomyCategory1":req.audience.filter((tr:any) => tr.type === 'position').map((r:any) => r.term)||[],
-              "framework.taxonomyCategory2":req.audience.filter((tr:any) => tr.type === 'role').map((r:any) => r.term)||[],
+              "framework.taxonomyCategory2":[],
               "framework.taxonomyCategory3":[],
               "framework.taxonomyCategory4":[],
               "framework.taxonomyCategory5":[],
               "framework.id":this.sendOnlyWhenTaxonomy(req.audience),
               "profileDetails.employmentDetails.departmentName":req.audience.filter((tr:any) => tr.type === 'department').map((r:any) => r.term)||[],
-          },
+              "roles.role":req.audience.filter((tr:any) => tr.type === 'role').map((r:any) => r.term)||[]
+            },
           "dataValue": req.notificationText
       }
-    }   
-   return this.http.post('/learner/user/feed/v2/create', payload);
+    }
+    this.http = new HttpClient(this.httpBackend);
+    return this.http.post(appConst.APIS.create, payload);
   }
 
   getCategorybasedAudienceList(frameworkDetails:any, type:any) {
+    if(type==='role') return appConst.PLATFORM_ROLES;
     return frameworkDetails.categories.filter((c:any) => c.name.toLowerCase() == type+'s'.toLowerCase())[0].terms;
   }
   
   getDisplayColumns(aud:any){
       switch(aud) {
-        case 'position': return POSITION_COLUMNS;
-        case 'role': return  ROLE_COLUMNS;
-        case 'department': return DEPARTMENT_COLUMNS
+        case 'position': return appConst.POSITION_COLUMNS;
+        case 'role': return  appConst.ROLE_COLUMNS;
+        case 'department': return appConst.DEPARTMENT_COLUMNS
         default:return;
       }
-
   }
 
   departmentList(){ 
@@ -119,6 +119,26 @@ export class NotificationService {
           "limit": 100
       }
     }
-    return this.http.post('/learner/user/v1/department/list', payload);
+    return this.http.post(appConst.APIS.departmentList, payload);
   }
+
+  getNotificationList(status:any) {
+      this.http = new HttpClient(this.httpBackend);
+      return this.http.get(`${appConst.APIS.notificationList}${status}`)
+  }
+  
+  uploadImage(file: any){
+    const fb = new FormData();
+    fb.append('file', file, file.name);
+    return this.http.post(appConst.APIS.upload, fb,{headers:{Authorization:'Bearer ' + this.configuration?.authorization}});
+  }
+
+  mergeDateTime(d:any, t:any){
+    const yy = new Date(d).getFullYear();
+    const mm = new Date(d).getMonth() + 1;
+    const dd = new Date(d).getDate();
+    const ts = t.split(':');
+    return new Date(yy,mm,dd,ts[0],ts[1]).toISOString();
+  }
+
 }

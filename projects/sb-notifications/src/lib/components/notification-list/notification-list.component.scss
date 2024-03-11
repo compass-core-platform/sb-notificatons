@@ -58,6 +58,9 @@
         text-align: right;
         a {
           font-weight: 600;
+          &:hover {
+            text-decoration: none;
+          }
         }
       }
      }
@@ -69,6 +72,7 @@
     }
     .mat-header-cell{
         text-transform: capitalize;
+        text-align: left;
     }
   }
 
@@ -84,3 +88,7 @@ table {
   h2 {
     margin-top:30px;
   }
+  
+.create-link {
+  text-decoration: none;
+}

@@ -7,11 +7,12 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build-lib-watch":"ng build sb-notifications --watch=true",
-    "build-lib":"ng build sb-notifications"
+    "watch-lib": "ng build sb-notifications --watch=true",
+    "build-lib": "ng build sb-notifications"
   },
   "private": true,
   "dependencies": {
+    "@angular-material-components/datetime-picker": "^16.0.1",
     "@angular/animations": "^14.2.0",
     "@angular/cdk": "^13.0.0",
     "@angular/common": "^14.2.0",
@@ -23,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
     "compass-sb-styles": "^0.0.9",
+    "ngx-mat-timepicker": "14.0.8",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AudienceListComponent } from '../audience-list/audience-list.component';
+import { NotificationService } from '../../shared/services/notification.service';
 
+const notificationData = [
+  {title:'sunbird', scheduledFor:'21/09/23', audience:'roles' },
+  {title:'Ecosystem', scheduledFor:'21/09/23', audience:'roles' },
+  {title:'xeviour', scheduledFor:'21/09/23', audience:'department' }
+] 
 
 export interface PeriodicElement {
   name: string;
   scheduledFor:string
-  audiance: string;
+  audience: string;
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {name: 'Hydrogen Tuts', scheduledFor: '12/2/24', audiance: 'Juniors'},
-  {name: 'kwoledge source', scheduledFor: '12/2/24', audiance: 'Leads'},
-  {name: 'Lux', scheduledFor: '12/3/24', audiance: 'Senior Leads'},
-];
 
 @Component({
   selector: 'lib-notification-list',
@@ -22,20 +22,35 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class NotificationListComponent implements OnInit {
   search = '';
-  displayedColumns: string[] = ['name', 'scheduledFor', 'audiance'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['title', 'scheduledFor', 'audience'];
   clickedRows = new Set<PeriodicElement>();
-  
-  constructor() { }
+  pastNotifications:PeriodicElement[] = [];
+  scheduledNotifications = notificationData;
+  notificationList: PeriodicElement[] = [];
+
+  constructor(private notificationService: NotificationService) { }
 
   ngOnInit(): void {
+    this.getNotificationList(); 
   }
 
   searchResult(event:any){
-      console.log(event);
+    this.search = event;
   }
-  createLink(){}
-
-
- 
+  getNotificationList(){
+    this.notificationService.getNotificationList('false').subscribe((list:any) => {
+      this.pastNotifications = list.result.response.notifications.map((notification:any) => {
+        return this.updateResponse(notification);
+      });
+    })
+    this.notificationService.getNotificationList('true').subscribe((list:any) => {
+      this.scheduledNotifications = list.result.response.notifications.map((notification:any) => {
+        return this.updateResponse(notification);
+      });
+    })
+  }
+  
+  updateResponse(notification:any){
+    return { title: notification.title, scheduledFor:new Date (notification.scheduletime).toLocaleDateString()+' '+new Date (notification.scheduletime).toLocaleTimeString(), audience: notification.audience  }
+  }
 }

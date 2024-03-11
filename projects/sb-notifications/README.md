@@ -2,7 +2,7 @@
 
     A light and easy to use custom notifications library along with the sunbird notifcation service.
 
-## Example
+## Demo link
 
 ## Instalation
 
@@ -53,8 +53,9 @@
 
                 /learner/user/v1/department/list
 
-        
-            
+            Notification list: 
+            /learner/user/v1/notification/list/true
+            /learner/user/v1/notification/list/false
             
 
 

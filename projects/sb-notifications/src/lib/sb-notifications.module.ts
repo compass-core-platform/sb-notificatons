@@ -22,10 +22,16 @@ import { AudienceListComponent } from './components/audience-list/audience-list.
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NotificationInterceptor } from './shared/services/notification.interceptor';
 import { CommonModule } from '@angular/common';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NotificationPreviewComponent } from './components/notification-preview/notification-preview.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { LOCALE_ID } from '@angular/core';
+import { FilterPipe } from './shared/pipes/filter.pipe';
 
+
+const lang = 'en-US';
 @NgModule({
   declarations: [
     SbNotificationsComponent,
@@ -34,7 +40,8 @@ import { NotificationPreviewComponent } from './components/notification-preview/
     SearchFilterComponent,
     ImageUploadDirective,
     AudienceListComponent,
-    NotificationPreviewComponent
+    NotificationPreviewComponent,
+    FilterPipe
   ],
   imports: [
     CommonModule,
@@ -53,11 +60,17 @@ import { NotificationPreviewComponent } from './components/notification-preview/
     MatCheckboxModule,
     MatChipsModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxMatTimepickerModule.setLocale(lang)
   ],
   providers: [
     { 
       provide: HTTP_INTERCEPTORS, useClass: NotificationInterceptor, multi:true
+    },
+    {
+      provide: LOCALE_ID, useValue: lang 
     }
   ],
   exports: [

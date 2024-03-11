@@ -15,7 +15,8 @@
                             <p>
                             <mat-label>Notificaton title</mat-label>
                             <mat-form-field appearance="outline">
-                                    <input matInput formControlName="notificationTitle" placeholder="Enter key result here">
+                                    <input matInput formControlName="notificationTitle" placeholder="Enter title here">
+                                    <mat-error *ngIf="notificationForm.invalid">Title is required.</mat-error>
                             </mat-form-field>
                         </p>
                         <p>
@@ -24,7 +25,7 @@
                             <mat-form-field appearance="outline">
                             
                             <textarea matInput formControlName="notificationText" placeholder="Type here" rows="5" cols="40"></textarea>
-                            
+                            <mat-error *ngIf="notificationForm.invalid">Text is required.</mat-error>
                             </mat-form-field>
                         </p>
         
@@ -35,14 +36,13 @@
                                     <div><label>Drag & drop</label> or <label class="browseImage" color="primary" for="file1">Browse image</label> </div>
                                     <p>(Note: It will support only JPEG, PNG format <br /> only with the maximum size of 2MB.)</p>
                                     <input type="file" id="file1"  style="visibility:hidden;" accept="image/*"  (change)="handleFileInput($event)">
-                                    <div *ngIf="fileToUpload" class="file-name">{{fileToUpload?.name}}</div>
-                            </div>
+                                </div>
                         </div>
         
                         <div class="content-type">
                             <mat-label>Content type</mat-label>
                             <p>
-                             <mat-checkbox [checked]="contentTypeSelected  == 'deepLink'" value="deepLink" (change)="onContentTypeChange($event)">Deep Link</mat-checkbox>
+                             <mat-checkbox [checked]="contentTypeSelected  == 'deepLink'" value="deepLink" (change)="onContentTypeChange($event)" disabled="true">Deep Link</mat-checkbox>
                              <mat-checkbox [checked]="contentTypeSelected == 'text'" value="text" (change)="onContentTypeChange($event)">Text</mat-checkbox>
                             </p>
                         </div>
@@ -57,6 +57,7 @@
                         <p class="item-to-link" *ngIf="contentTypeSelected == 'text'">
                             <mat-form-field appearance="outline">
                                  <input matInput placeholder="Type here" formControlName="contentType" />
+                                 <mat-error *ngIf="notificationForm.invalid">Content type is required.</mat-error>
                             </mat-form-field>
                         </p>
         
@@ -82,10 +83,44 @@
                     <mat-card-content>
                         <h4>Schedule</h4>
                         <p>
-                            <mat-checkbox color="primary" value="now" [checked]="scheduleToSend=='now'">Send now</mat-checkbox>
-                            <mat-checkbox  color="primary" value="later" [checked]="scheduleToSend=='later'">Schedule for later</mat-checkbox>
+                            <mat-checkbox color="primary" value="now" [checked]="scheduleToSend=='now'" (change)="onScheduleChange($event)">Send now</mat-checkbox>
+                            <mat-checkbox  color="primary" value="later" [checked]="scheduleToSend=='later'" (change)="onScheduleChange($event)">Schedule for later</mat-checkbox>
                         </p>
-                    </mat-card-content>
+
+                        <div class="select-time" *ngIf="scheduleToSend =='later'">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Select date</mat-label>
+                                <input matInput [min]="minDate" [matDatepicker]="picker" formControlName="scheduleDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker [startAt]="minDate"></mat-datepicker>
+                            </mat-form-field>
+                            <!-- <mat-form-field appearance="outline">
+                                <input type="time" formControlName="scheduledTime">  
+                            </mat-form-field> -->
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Select time</mat-label>
+                                <input matInput
+                                [format]="24"
+                                [ngxMatTimepicker]="pickerF"
+                                placeholder="Select time"
+                                readonly 
+                                    formControlName="scheduleTime"
+                                />
+                                <!-- <ngx-mat-timepicker-toggle  (click)="pickerF.open()"></ngx-mat-timepicker-toggle> -->
+                                <ngx-mat-timepicker-toggle matSuffix (click)="pickerF.open()"></ngx-mat-timepicker-toggle>
+                            </mat-form-field>
+                            <!-- <button mat-raised-button
+                                    class="ngx-mtp-margin-top ngx-mtp-margin-bottom ngx-mtp-d-inline-block"
+                                    (click)="pickerF.open()"
+                                    color="primary">
+                                Open picker
+                            </button> -->
+                             <ngx-mat-timepicker color="accent"
+                                                 #pickerF></ngx-mat-timepicker>
+
+                        </div>
+                    </mat-card-content> 
                 </mat-card>
                 <footer class="action">
                     <button mat-stroked-button color="primary" type="reset" (click)="clear()">Cancel</button>

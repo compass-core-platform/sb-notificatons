@@ -12,14 +12,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class CreateNotificationComponent implements OnInit {
   notificationForm!: FormGroup;
-  fileToUpload: any;
+  fileToUpload!: File;
   contentTypeSelected = 'text';
   scheduleToSend = 'now';
-  selectedAudiences = [];
+  selectedAudiences:any = [];
   audienceList = ['position', 'role', 'department', 'All Users']
   frameworkDetails:any;
   departmentList!:string[];
-
+  minDate = new Date();
+  uploadedImaglink:any;
+  url:any;
   constructor(private fb: FormBuilder, public dialog: MatDialog, private notificationService: NotificationService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
@@ -34,7 +36,9 @@ export class CreateNotificationComponent implements OnInit {
       notificationText:['', Validators.required],
       contentType:['', Validators.required],
       audience:[''],
-      schedule:[''],
+      isScheduleNotification:[false],
+      scheduleDate:[''],
+      scheduleTime:[''],
       img:['']
     });
   }
@@ -53,18 +57,23 @@ export class CreateNotificationComponent implements OnInit {
      this.contentTypeSelected = e.source.value;
   }
 
+  onScheduleChange(e:any) {
+    this.scheduleToSend = e.source.value;
+    this.notificationForm.patchValue({'isScheduleNotification': this.scheduleToSend === 'later'?true:false});
+  }
+
   handleFileInput(event:any) {
-    this.fileToUpload = event.target.files[0];
-     const formData: FormData = new FormData();
-    formData.append('fileName', this.fileToUpload, this.fileToUpload?.name);
-    this.notificationForm.patchValue({'img':formData});
+       this.notificationService.uploadImage(event.target.files[0]).subscribe((res:any) => {
+          this.uploadedImaglink = res.result.url;
+          this.notificationForm.patchValue({'img':res.result.url});
+        });
   }
 
   onDropFiles(files: any[]): void {
-    this.fileToUpload = files[0].file;
-    const formData: FormData = new FormData();
-    formData.append('fileName', this.fileToUpload, this.fileToUpload?.name);
-    this.notificationForm.patchValue({'img':formData});
+   this.notificationService.uploadImage(files[0].file).subscribe((res:any) => {
+      this.uploadedImaglink = res.result.url;
+      this.notificationForm.patchValue({'img':res.result.url});
+    });
   }
 
   scroll(el:any, event:any) {
@@ -73,10 +82,11 @@ export class CreateNotificationComponent implements OnInit {
     document.getElementById(el)?.scrollIntoView({behavior: 'smooth'});
     event.target.classList.add('active');
   }
-
+  
   openDialog(audience:any) {
     if(audience === this.audienceList[3]){
       this.notificationForm.patchValue({'audience':[]});
+      this.selectedAudiences.length = 0;
       return;
     }
     const filteredAudienceList = audience !== 'department' ? this.notificationService.getCategorybasedAudienceList(this.frameworkDetails, audience): this.departmentList;
@@ -90,8 +100,14 @@ export class CreateNotificationComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-     this.notificationForm.patchValue({'audience':result});
-     this.selectedAudiences = result;
+     
+      result.forEach((k:any) => {
+        const selectTerms = this.selectedAudiences.map((aud:any) => aud.term);
+          if(!selectTerms.includes(k.term)){
+            this.selectedAudiences.push(k);
+          }
+          this.notificationForm.patchValue({'audience':this.selectedAudiences});
+      });
     });
 
   }
@@ -117,9 +133,11 @@ export class CreateNotificationComponent implements OnInit {
       contentType:'',
       audience:'',
       img:'',
-      schedule:''
+      scheduleDate:'',
+      scheduleTime:''
     });
     this.selectedAudiences = [];
   }
+
 
 }

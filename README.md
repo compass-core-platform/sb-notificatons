@@ -1,27 +1,61 @@
-# SbNotification
+# SbNotifications
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.12.
+    A light and easy to use custom notifications library along with the sunbird notifcation service.
 
-## Development server
+## Example
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Instalation
 
-## Code scaffolding
+    npm install --save sb-notifications
+                or
+    yarn add sb-notifications
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Setup 
 
-## Build
+   1. Import SbNotificationsModule module into root module or any feature module in your application.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+        @NgModule({
+            declarations: [
+                AppComponent
+            ],
+            imports: [
+                SbNotificationsModule.forRoot({
+                    configuration: {
+                            domain:'',
+                            production: false,
+                            userId:'',
+                            authorization: '',
+                            framework:''
+                    }
+                }),
+        ],
+        providers: [],
+        bootstrap: [AppComponent]
+        })
+        export class AppModule { }
 
-## Running unit tests
+    2.  Add following components in the routing module as children.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+            NotificationListComponent,
+            CreateNotificationComponent
+            
+    3.  Supporting sunbird api's
 
-## Running end-to-end tests
+            Create Notification api:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+                /learner/user/feed/v2/create
+                
+            Framework read api:
 
-## Further help
+                /api/framework/v1/read/
+            
+            Department List api:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+                /learner/user/v1/department/list
+
+            Notification list: 
+            /learner/user/v1/notification/list/true
+            /learner/user/v1/notification/list/false
+            
+
+

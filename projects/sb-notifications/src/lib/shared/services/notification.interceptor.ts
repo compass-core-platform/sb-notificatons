@@ -15,15 +15,23 @@ export class NotificationInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const auth = this.notificationService.configuration;
+      if(!auth){
+         const blankReq = request.clone(
+          {
+            setHeaders:{
+              Authorization: '',
+              userId: auth.userId
+            }
+          });
+        return next.handle(blankReq);
+      } 
       const req = request.clone(
         {
           setHeaders:{
-            Authorization:auth.authorization,
+            Authorization: 'Bearer '+auth.authorization,
             userId: auth.userId
           }
         });
-      // req.headers.append("Authorization", auth.authorization);
-
     return next.handle(req);
   }
 }

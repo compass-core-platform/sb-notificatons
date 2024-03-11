@@ -25,7 +25,7 @@ export class SearchFilterComponent implements OnInit {
   }
 
   search() {
-    
+    this.updateSearchResults.emit(this.searchText);
   }
 
 }
