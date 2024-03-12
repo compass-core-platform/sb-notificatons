@@ -3,11 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { AudienceListComponent } from '../audience-list/audience-list.component';
 import { NotificationService } from '../../shared/services/notification.service';
 
-const notificationData = [
-  {title:'sunbird', scheduledFor:'21/09/23', audience:'roles' },
-  {title:'Ecosystem', scheduledFor:'21/09/23', audience:'roles' },
-  {title:'xeviour', scheduledFor:'21/09/23', audience:'department' }
-] 
 
 export interface PeriodicElement {
   name: string;
@@ -25,7 +20,7 @@ export class NotificationListComponent implements OnInit {
   displayedColumns: string[] = ['title', 'scheduledFor', 'audience'];
   clickedRows = new Set<PeriodicElement>();
   pastNotifications:PeriodicElement[] = [];
-  scheduledNotifications = notificationData;
+  scheduledNotifications = [];
   notificationList: PeriodicElement[] = [];
 
   constructor(private notificationService: NotificationService) { }

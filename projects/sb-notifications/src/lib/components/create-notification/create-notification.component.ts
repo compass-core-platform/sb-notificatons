@@ -131,7 +131,7 @@ export class CreateNotificationComponent implements OnInit {
       notificationTitle:'',
       notificationText:'',
       contentType:'',
-      audience:'',
+      audience:[],
       img:'',
       scheduleDate:'',
       scheduleTime:''

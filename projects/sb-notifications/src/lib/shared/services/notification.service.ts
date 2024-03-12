@@ -135,7 +135,7 @@ export class NotificationService {
 
   mergeDateTime(d:any, t:any){
     const yy = new Date(d).getFullYear();
-    const mm = new Date(d).getMonth() + 1;
+    const mm = new Date(d).getMonth();
     const dd = new Date(d).getDate();
     const ts = t.split(':');
     return new Date(yy,mm,dd,ts[0],ts[1]).toISOString();

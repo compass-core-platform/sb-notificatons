@@ -231,3 +231,9 @@
 .mat-chip {
     text-transform: capitalize;
 }
+.cdk-overlay-pane {
+    background-color: #fff !important;
+    .mat-dialog-container {
+    background-color: #fff !important;
+    }
+}
