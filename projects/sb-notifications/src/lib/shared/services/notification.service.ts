@@ -17,7 +17,7 @@ export class NotificationService {
   getFrameworkDetails(){
     return this.http.get(`${appConst.APIS.frameworkRead}${this.configuration.framework}?categories=`).pipe(
       map((res:any) => {
-        return res.result.framework;
+        return res.result?.framework;
       })
     )
   }
@@ -39,7 +39,7 @@ export class NotificationService {
               "action": {
                   "template": {
                       "config": {
-                          "sender": this.config.configuration.email,
+                          "sender": this.config.configuration.environment.email,
                           "topic": null,
                           "otp": null,
                           "subject": req.notificationTitle
@@ -74,7 +74,7 @@ export class NotificationService {
                   "type": "email",
                   "category": "email",
                   "createdBy": {
-                      "id": this.config.configuration.userId,
+                      "id": this.config.configuration.environment.userId,
                       "type": "user"
                   }
               }
@@ -100,7 +100,7 @@ export class NotificationService {
 
   getCategorybasedAudienceList(frameworkDetails:any, type:any) {
     if(type==='role') return appConst.PLATFORM_ROLES;
-    return frameworkDetails.categories.filter((c:any) => c.name.toLowerCase() == type+'s'.toLowerCase())[0].terms;
+    return frameworkDetails.categories?.filter((c:any) => c.name.toLowerCase() == type+'s'.toLowerCase())[0].terms;
   }
   
   getDisplayColumns(aud:any){

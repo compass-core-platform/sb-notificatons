@@ -18,7 +18,7 @@ export class CreateNotificationComponent implements OnInit {
   selectedAudiences:any = [];
   audienceList = ['position', 'role', 'department', 'All Users']
   frameworkDetails:any;
-  departmentList!:string[];
+  departmentList!:any[];
   minDate = new Date();
   uploadedImaglink:any;
   url:any;
