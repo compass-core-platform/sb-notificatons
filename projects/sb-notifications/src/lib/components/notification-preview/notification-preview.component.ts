@@ -12,7 +12,7 @@ export class NotificationPreviewComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  ngOnChanages(changes:SimpleChange){
+  ngOnChanges(changes:SimpleChange){
       this.previewData = changes;
   }
 

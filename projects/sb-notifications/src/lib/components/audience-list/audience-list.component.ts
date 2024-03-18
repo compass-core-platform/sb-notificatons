@@ -16,7 +16,7 @@ const ELEMENT_DATA:Audience[] = [];
   styleUrls: ['./audience-list.component.scss']
 })
 export class AudienceListComponent implements OnInit {
-  dataSource = [];
+  dataSource: any[] = [];
   search:any = '';
   displayedColumns: string[];
   selection = new SelectionModel<Audience>(true, []);
@@ -28,7 +28,7 @@ export class AudienceListComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any, private notificationService: NotificationService) { 
       this.dialogRef.disableClose = true;
       this.slectedRowList = this.isAudienceExist(data.selectedAudiences);
-      this.dataSource = data.audienceList.map((a:any) => {
+      this.dataSource = data?.audienceList?.map((a:any) => {
         return  { [data.type]:a.name, noOfMembers:a.noOfMembers || '' }
       });
       this.dataSourceList = this.dataSource;
@@ -37,7 +37,9 @@ export class AudienceListComponent implements OnInit {
       this.getFramworkterms();
     }   
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isAllSelected();
+  }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -92,7 +94,7 @@ export class AudienceListComponent implements OnInit {
     return str.split(/(?=[A-Z])/).join(' ');
   }
 
-  isAudienceExist(selectedAudiences:[]){
+  isAudienceExist(selectedAudiences:any[]){
     if(!this.slectedRowList){
           return selectedAudiences;
     }  

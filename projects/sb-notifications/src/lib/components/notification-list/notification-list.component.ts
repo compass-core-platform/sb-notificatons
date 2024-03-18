@@ -33,12 +33,12 @@ export class NotificationListComponent implements OnInit {
     this.search = event;
   }
   getNotificationList(){
-    this.notificationService.getNotificationList('false').subscribe((list:any) => {
+    this.notificationService.getNotificationList('false')?.subscribe((list:any) => {
       this.pastNotifications = list.result.response.notifications.map((notification:any) => {
         return this.updateResponse(notification);
       });
     })
-    this.notificationService.getNotificationList('true').subscribe((list:any) => {
+    this.notificationService.getNotificationList('true')?.subscribe((list:any) => {
       this.scheduledNotifications = list.result.response.notifications.map((notification:any) => {
         return this.updateResponse(notification);
       });
